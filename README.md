@@ -1,6 +1,6 @@
-# K8s RBAC & CLI Demo Setup
+# K8s RBAC Demo Setup
 
-This repository contains automation to prepare a Kubernetes environment for RBAC demonstrations and Akeyless CLI validation.
+This repository contains automation to prepare a Kubernetes environment for RBAC demonstrations and Akeyless validation.
 
 ### 🎯 Project Goal
 **The primary goal of this project is to automate the deployment of a multi-namespace environment and validate Akeyless RBAC configurations based on Sub-Claims.**
@@ -8,7 +8,7 @@ This repository contains automation to prepare a Kubernetes environment for RBAC
 ## 📂 Core Components
 | File | Function |
 | :--- | :--- |
-| setup_demo_env.sh | **Orchestrator**: Validates K8s context, checks Akeyless RBAC, creates namespaces, and verifies CLI inside pods. |
+| setup_demo_env.sh | **Orchestrator**: Validates K8s context, checks Akeyless RBAC, creates namespaces, and verifies environment inside pods. |
 
 ## 🏗️ Setup Scope (setup_demo_env.sh)
 The script automates the following critical steps:
@@ -25,11 +25,11 @@ The script automates the following critical steps:
 
 ### 3. Kubernetes Resource Provisioning
 - **Namespaces**: Isolated environments (`namespace-a`, `namespace-b`).
-- **Pods**: NGINX targets for CLI validation.
+- **Pods**: NGINX targets for environment validation.
 
-### 4. Akeyless CLI Verification
-- **Runtime Check**: Source profile and check version inside running pods.
-- **Interactive Guide**: Provides clear instructions if the CLI is missing.
+### 4. Verification
+- **Runtime Check**: Source profile and environment check inside running pods.
+- **Interactive Guide**: Provides clear instructions for manual setup if needed.
 
 ## ⚙️ Configuration Variables
 - **TARGET_CONTEXT**: The safe GKE/vCluster context for deployment.
