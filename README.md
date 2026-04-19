@@ -15,11 +15,10 @@ The script automates the following critical steps:
 
 ### 1. Environment & Context Validation
 - **K8s Context**: Prevents execution in the wrong cluster.
-- **Akeyless Auth Method**: Verifies that `` exists and is accessible.
+- **Akeyless Auth Method**: Verifies that `/K8s/k8s-ns-rbac-demo` exists and is accessible.
 
 ### 2. RBAC & Sub-Claims Verification
 - **Role Association**: Checks if required roles are linked to the Auth Method.
-- **Exact Match Logic**: Validates roles against the Akeyless API using `jq` (case-sensitive).
 - **Roles Checked**:
   - `Demo/K8S/Namespace-Demo/Access_Namespace-A`
   - `Demo/K8S/Namespace-Demo/Access_Namespace-B`
@@ -34,7 +33,7 @@ The script automates the following critical steps:
 
 ## ⚙️ Configuration Variables
 - **TARGET_CONTEXT**: The safe GKE/vCluster context for deployment.
-- **AUTH_METHOD_NAME**: The path to your K8s Auth Method in Akeyless.
+- **AUTH_METHOD_NAME**: `/K8s/k8s-ns-rbac-demo`
 
 ## 🚀 Usage
 1. Ensure you are logged into Akeyless CLI on your host.
