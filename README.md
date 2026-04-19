@@ -28,17 +28,25 @@ The script executes the following workflow:
 
 ### 4. In-Pod Environment Verification
 - **Akeyless CLI Audit**: Executes commands inside pods to verify Akeyless CLI installation and PATH configuration.
-- **Troubleshooting**: Provides interactive manual installation steps if the environment is not ready.
 
 ### 5. Akeyless Auth & RBAC Validation
 - **Auth Method Verification**: Confirms that `/K8s/k8s-ns-rbac-demo` is active in Akeyless.
-- **RBAC Audit**: Validates that the required roles (`Access_Namespace-A/B`) are correctly associated with the Auth Method using precise JSON filtering.
+- **RBAC Audit**: Validates that the required roles (`Access_Namespace-A/B`) are correctly associated with the Auth Method.
+
+## 🚀 Demo Walkthrough
+Follow these steps to demonstrate the RBAC isolation:
+
+### 1. Verify Infrastructure
+Show that the environment is ready and isolated namespaces are created:
+```bash
+kubectl get ns
+```
 
 ## ⚙️ Configuration Variables
 - **TARGET_CONTEXT**: The safe GKE/vCluster context for deployment.
 - **AUTH_METHOD_NAME**: `/K8s/k8s-ns-rbac-demo`
 
-## 🚀 Usage
+## 🛠 Usage
 1. Ensure you are logged into Akeyless CLI on your host.
 2. Run the setup script:
 ```bash
