@@ -15,6 +15,13 @@ NC='\033[0m' # No Color
 TARGET_CONTEXT="vcluster_my-vcluster_leon_gke_customer-success-391112_us-central1_customer-success-391112-gke-sandbox"
 NAMESPACES=("namespace-a" "namespace-b")
 
+# The Access ID from your K8s Auth Method (k8s-ns-rbac-demo)
+AUTH_METHOD_NAME="/K8s/k8s-ns-rbac-demo"
+EXPECTED_ROLES=(
+    "Demo/K8S/Namespace-Demo/Access_Namespace-A"
+    "Demo/K8S/Namespace-Demo/Access_Namespace-B"
+)
+
 # Mapping pods to namespaces
 declare -A POD_MAP
 POD_MAP["mypod-a"]="namespace-a"
@@ -127,4 +134,34 @@ for pod in "${!POD_MAP[@]}"; do
         printf "${CYAN}akeyless --version${NC}\n"
         echo "--------------------------------------------------------"
     fi
+
+  # --- 6. Validate Akeyless Auth Method & RBAC ---
+printf "${CYAN}--- Validating Akeyless Auth Method & RBAC ---${NC}\n"
+
+METHOD_DATA=$(akeyless auth-method get --name "$AUTH_METHOD_NAME" --json 2>/dev/null)
+
+if [ $? -ne 0 ]; then
+    printf "${RED}ERROR: Auth Method '$AUTH_METHOD_NAME' not found.${NC}\n"
+    exit 1
+fi
+printf "${GREEN}SUCCESS: Auth Method '$AUTH_METHOD_NAME' verified.${NC}\n"
+
+printf "${CYAN}Checking associated RBAC roles...${NC}\n"
+
+for role in "${EXPECTED_ROLES[@]}"; do
+    # Search specifically in the auth_method_roles_assoc array
+    # We use sub-string matching or exact matching to find the role_name
+    IS_PRESENT=$(echo "$METHOD_DATA" | jq -r --arg ROLE "$role" '.auth_method_roles_assoc[]? | select(.role_name == $ROLE) | .role_name')
+
+    if [ "$IS_PRESENT" == "$role" ]; then
+        printf "${GREEN}SUCCESS: Role '$role' is correctly associated.${NC}\n"
+    else
+        printf "${RED}ERROR: Critical RBAC missing! Role '$role' is NOT associated.${NC}\n"
+        printf "${YELLOW}Found in JSON: Use exact path and case (K8S vs K8s).${NC}\n"
+        exit 1
+    fi
+done
+
+printf "${GREEN}SUCCESS: All Akeyless RBAC requirements met.${NC}\n"
+
 done
