@@ -33,15 +33,6 @@ The script executes the following workflow:
 - **Auth Method Verification**: Confirms that `/K8s/k8s-ns-rbac-demo` is active in Akeyless.
 - **RBAC Audit**: Validates that the required roles (`Access_Namespace-A/B`) are correctly associated with the Auth Method.
 
-## 🚀 Demo Walkthrough
-Follow these steps to demonstrate the RBAC isolation:
-
-### 1. Verify Infrastructure
-Show that the environment is ready and isolated namespaces are created:
-```bash
-kubectl get ns
-```
-
 ## ⚙️ Configuration Variables
 - **TARGET_CONTEXT**: The safe GKE/vCluster context for deployment.
 - **AUTH_METHOD_NAME**: `/K8s/k8s-ns-rbac-demo`
@@ -52,6 +43,15 @@ kubectl get ns
 ```bash
 chmod +x setup_demo_env.sh
 ./setup_demo_env.sh
+```
+
+## 🚀 Demo Walkthrough
+Follow these steps to demonstrate the RBAC isolation:
+
+### 1. Verify Infrastructure
+Show that the environment is ready and isolated namespaces are created:
+```bash
+kubectl get ns
 ```
 
 ---
