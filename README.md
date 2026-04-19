@@ -8,28 +8,31 @@ This repository contains automation to prepare a Kubernetes environment for RBAC
 ## 📂 Core Components
 | File | Function |
 | :--- | :--- |
-| setup_demo_env.sh | **Orchestrator**: Validates K8s context, checks Akeyless RBAC, creates namespaces, and verifies environment inside pods. |
+| setup_demo_env.sh | **Orchestrator**: Executes environment validation, resource provisioning, and Akeyless RBAC auditing. |
 
 ## 🏗️ Setup Scope (setup_demo_env.sh)
-The script automates the following critical steps:
+The script executes the following workflow:
 
-### 1. Environment & Context Validation
-- **K8s Context**: Prevents execution in the wrong cluster.
-- **Akeyless Auth Method**: Verifies that `/K8s/k8s-ns-rbac-demo` exists and is accessible.
+### 1. Environment Validation
+- **K8s Context Check**: Validates the active `kubectl` context against the target safety variable.
+- **Tooling Check**: Ensures `kubectl` and necessary binaries are available.
 
-### 2. RBAC & Sub-Claims Verification
-- **Role Association**: Checks if required roles are linked to the Auth Method.
-- **Roles Checked**:
-  - `Demo/K8S/Namespace-Demo/Access_Namespace-A`
-  - `Demo/K8S/Namespace-Demo/Access_Namespace-B`
+### 2. Namespace Management
+- **Discovery**: Checks if `namespace-a` and `namespace-b` already exist.
+- **Provisioning**: Automatically creates missing namespaces if they are not found.
 
-### 3. Kubernetes Resource Provisioning
-- **Namespaces**: Isolated environments (`namespace-a`, `namespace-b`).
-- **Pods**: NGINX targets for environment validation.
+### 3. Workload Orchestration (Pods)
+- **Status Audit**: Checks for the presence of `mypod-a` and `mypod-b` in their respective namespaces.
+- **Deployment**: Launches NGINX-based pods if they are missing.
+- **Readiness**: Waits and validates that all pods have reached the `Running` state.
 
-### 4. Verification
-- **Runtime Check**: Source profile and environment check inside running pods.
-- **Interactive Guide**: Provides clear instructions for manual setup if needed.
+### 4. In-Pod Environment Verification
+- **Akeyless CLI Audit**: Executes commands inside pods to verify Akeyless CLI installation and PATH configuration.
+- **Troubleshooting**: Provides interactive manual installation steps if the environment is not ready.
+
+### 5. Akeyless Auth & RBAC Validation
+- **Auth Method Verification**: Confirms that `/K8s/k8s-ns-rbac-demo` is active in Akeyless.
+- **RBAC Audit**: Validates that the required roles (`Access_Namespace-A/B`) are correctly associated with the Auth Method using precise JSON filtering.
 
 ## ⚙️ Configuration Variables
 - **TARGET_CONTEXT**: The safe GKE/vCluster context for deployment.
