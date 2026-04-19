@@ -54,6 +54,12 @@ Show that the environment is ready and isolated namespaces are created:
 kubectl get ns
 ```
 
+### 2. Enter Pod in Namespace A
+Access the pod with the pre-configured Akeyless environment:
+```bash
+kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "source /root/.profile && exec /bin/bash"
+```
+
 ---
 **Maintained by**: [leon-maister](https://github.com/leon-maister)
 
