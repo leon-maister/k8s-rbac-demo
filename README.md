@@ -3,40 +3,41 @@
 This repository contains automation to prepare a Kubernetes environment for RBAC demonstrations and Akeyless CLI validation.
 
 ### 🎯 Project Goal
-**The primary goal of this project is to automate the deployment of a multi-namespace environment to demonstrate Akeyless RBAC and CLI capabilities.**
+**The primary goal of this project is to automate the deployment of a multi-namespace environment and validate Akeyless RBAC configurations based on Sub-Claims.**
 
 ## 📂 Core Components
 | File | Function |
 | :--- | :--- |
-| setup_demo_env.sh | **Setup**: Validates context, creates namespaces, deploys pods, and checks Akeyless CLI. |
+| setup_demo_env.sh | **Orchestrator**: Validates K8s context, checks Akeyless RBAC, creates namespaces, and verifies CLI inside pods. |
 
 ## 🏗️ Setup Scope (setup_demo_env.sh)
-The `setup_demo_env.sh` script automates the following steps:
+The script automates the following critical steps:
 
-### 1. Environment Validation
-- **Safety Check**: Validates the active Kubernetes context to prevent accidental changes in Production.
-- **Tool Check**: Ensures `kubectl` is installed and accessible.
+### 1. Environment & Context Validation
+- **K8s Context**: Prevents execution in the wrong cluster.
+- **Akeyless Auth Method**: Verifies that `` exists and is accessible.
 
-### 2. Kubernetes Resource Provisioning
-- **Namespaces**: Creates multiple isolated namespaces (`namespace-a`, `namespace-b`).
-- **Pods**: Launches NGINX pods in each namespace to serve as CLI targets.
-- **Mapping**: Automatically maps specific pods to their respective namespaces.
+### 2. RBAC & Sub-Claims Verification
+- **Role Association**: Checks if required roles are linked to the Auth Method.
+- **Exact Match Logic**: Validates roles against the Akeyless API using `jq` (case-sensitive).
+- **Roles Checked**:
+  - `Demo/K8S/Namespace-Demo/Access_Namespace-A`
+  - `Demo/K8S/Namespace-Demo/Access_Namespace-B`
 
-### 3. Akeyless CLI Validation
-- **Status Check**: Verifies if pods are in `Running` state.
-- **CLI Check**: Executes inside the pod to verify if the Akeyless CLI is installed and configured in the PATH.
-- **Interactive Guide**: Provides manual installation steps if the CLI is missing.
+### 3. Kubernetes Resource Provisioning
+- **Namespaces**: Isolated environments (`namespace-a`, `namespace-b`).
+- **Pods**: NGINX targets for CLI validation.
+
+### 4. Akeyless CLI Verification
+- **Runtime Check**: Source profile and check version inside running pods.
+- **Interactive Guide**: Provides clear instructions if the CLI is missing.
 
 ## ⚙️ Configuration Variables
-The following variables are defined within the script:
-
-### Kubernetes Settings
-- **TARGET_CONTEXT**: `vcluster_my-vcluster_leon_gke_customer-success-391112_us-central1_customer-success-391112-gke-sandbox`
-- **NAMESPACES**: `("namespace-a" "namespace-b")`
-- **POD_MAP**: Mapping of pod names to their designated namespaces.
+- **TARGET_CONTEXT**: The safe GKE/vCluster context for deployment.
+- **AUTH_METHOD_NAME**: The path to your K8s Auth Method in Akeyless.
 
 ## 🚀 Usage
-1. Ensure your Kubernetes context is set correctly.
+1. Ensure you are logged into Akeyless CLI on your host.
 2. Run the setup script:
 ```bash
 chmod +x setup_demo_env.sh
