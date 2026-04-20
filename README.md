@@ -44,10 +44,10 @@ chmod +x setup_demo_env.sh
 ## 🚀 Demo Walkthrough
 
 ### 1. Verify Infrastructure
-Show created namespaces and pods:
+Show only the specific namespaces and pods for this demo:
 ```bash
-kubectl get ns | grep namespace
-kubectl get pods -A | grep -E 'namespace-a|namespace-b'
+kubectl get ns | grep -E '^namespace-a |^namespace-b '
+kubectl get pods -A | grep -E '^namespace-a |^namespace-b '
 ```
 
 ### 2. Enter Pod in Namespace A
