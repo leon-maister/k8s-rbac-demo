@@ -64,6 +64,12 @@ akeyless auth --access-id p-nhdb7uj7mxphkm \
     --k8s-auth-config-name k8s-config-ns-rbac-demo
 ```
 
+### 4. Inspect Sub-Claims
+Verify that the generated token contains the correct Kubernetes namespace claim:
+```bash
+akeyless describe-sub-claims --token $(cat /root/.akeyless/profiles/default.ini | grep 'token' | cut -d'=' -f2 | tr -d ' ')
+```
+
 ---
 **Maintained by**: [leon-maister](https://github.com/leon-maister)
 
