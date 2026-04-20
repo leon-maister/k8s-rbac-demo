@@ -65,9 +65,22 @@ akeyless auth --access-id p-nhdb7uj7mxphkm \
 ```
 
 ### 4. Inspect Sub-Claims
-Verify that the generated token contains the correct Kubernetes namespace claim:
+Verify the claims within your session token (copy the token from the previous step):
 ```bash
-akeyless describe-sub-claims --token $(cat /root/.akeyless/profiles/default.ini | grep 'token' | cut -d'=' -f2 | tr -d ' ')
+akeyless describe-sub-claims --token <YOUR_TOKEN>
+```
+
+### 5. Access Secrets (RBAC Enforcement)
+Demonstrate that access is restricted to the current namespace:
+
+**Success**: Get secret for Namespace A:
+```bash
+akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-A/secret-namespace-A --token <YOUR_TOKEN>
+```
+
+**Failure**: Attempt to access secret for Namespace B (Access Denied):
+```bash
+akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-B/secret-namespace-B --token <YOUR_TOKEN>
 ```
 
 ---
