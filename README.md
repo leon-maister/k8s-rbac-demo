@@ -14,27 +14,23 @@ This repository contains automation to prepare a Kubernetes environment for RBAC
 The script executes the following workflow:
 
 ### 1. Environment Validation
-- **K8s Context Check**: Validates the active `kubectl` context against the target safety variable.
+- **K8s Context Check**: Validates the active `kubectl` context.
 - **Tooling Check**: Ensures `kubectl` and necessary binaries are available.
 
 ### 2. Namespace Management
-- **Discovery**: Checks if `namespace-a` and `namespace-b` already exist.
-- **Provisioning**: Automatically creates missing namespaces if they are not found.
+- **Discovery & Provisioning**: Manages `namespace-a` and `namespace-b`.
 
 ### 3. Workload Orchestration (Pods)
-- **Status Audit**: Checks for the presence of `mypod-a` and `mypod-b` in their respective namespaces.
-- **Deployment**: Launches NGINX-based pods if they are missing.
-- **Readiness**: Waits and validates that all pods have reached the `Running` state.
+- **Deployment**: Ensures `mypod-a` and `mypod-b` are running.
 
 ### 4. In-Pod Environment Verification
-- **Akeyless CLI Audit**: Executes commands inside pods to verify Akeyless CLI installation and PATH configuration.
+- **Akeyless CLI Audit**: Verifies installation inside pods.
 
 ### 5. Akeyless Auth & RBAC Validation
-- **Auth Method Verification**: Confirms that `/K8s/k8s-ns-rbac-demo` is active in Akeyless.
-- **RBAC Audit**: Validates that the required roles (`Access_Namespace-A/B`) are correctly associated with the Auth Method.
+- **RBAC Audit**: Validates roles associated with `/K8s/k8s-ns-rbac-demo`.
 
 ## ⚙️ Configuration Variables
-- **TARGET_CONTEXT**: The safe GKE/vCluster context for deployment.
+- **TARGET_CONTEXT**: The safe GKE/vCluster context.
 - **AUTH_METHOD_NAME**: `/K8s/k8s-ns-rbac-demo`
 
 ## 🛠 Usage
@@ -46,12 +42,12 @@ chmod +x setup_demo_env.sh
 ```
 
 ## 🚀 Demo Walkthrough
-Follow these steps to demonstrate the RBAC isolation:
 
 ### 1. Verify Infrastructure
-Show that the environment is ready and isolated namespaces are created:
+Show created namespaces and pods:
 ```bash
-kubectl get ns
+kubectl get ns | grep namespace
+kubectl get pods -A | grep -E 'namespace-a|namespace-b'
 ```
 
 ### 2. Enter Pod in Namespace A
