@@ -50,9 +50,9 @@ echo "--- NAMESPACES ---" && kubectl get ns | grep -E '^namespace-a |^namespace-
 ```
 
 ### 2. Enter Pod in Namespace A
-Access the pod with the pre-configured Akeyless environment:
+Access the pod with UTF-8 support and pre-configured Akeyless environment:
 ```bash
-kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "source /root/.profile && exec /bin/bash"
+kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && source /root/.profile && exec /bin/bash"
 ```
 
 ---
