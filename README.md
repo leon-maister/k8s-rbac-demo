@@ -55,6 +55,12 @@ Access the pod with UTF-8 support and pre-configured Akeyless environment:
 kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && source /root/.profile && exec /bin/bash"
 ```
 
+### 3. Authenticate with Akeyless
+Inside the pod, use the K8s Auth Method to log in:
+```bash
+akeyless auth --access-id p-nhdb7uj7mxphkm \n    --access-type k8s \n    --gateway-url https://gw-gke.lm.cs.akeyless.fans/ \n    --k8s-auth-config-name k8s-config-ns-rbac-demo
+```
+
 ---
 **Maintained by**: [leon-maister](https://github.com/leon-maister)
 
