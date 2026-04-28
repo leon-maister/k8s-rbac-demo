@@ -43,19 +43,24 @@ chmod +x setup_demo_env.sh
 
 ## 🚀 Demo Walkthrough
 
-### 1. Verify Infrastructure
+### 1. UI Overview (Secret Structure)
+Before diving into the terminal, open the Akeyless Console and navigate to:
+- **Items**: `/Demo/K8S-NS-Demo/`  
+Show the pre-configured secrets for both **Namespace-A** and **Namespace-B** to establish the baseline for RBAC testing.
+
+### 2. Verify Infrastructure
 Show specific namespaces and pods with clean formatting:
 ```bash
 echo "--- NAMESPACES ---" && kubectl get ns | grep -E '^namespace-a |^namespace-b ' && echo "" && echo "--- PODS ---" && kubectl get pods -A | grep -E '^namespace-a |^namespace-b '
 ```
 
-### 2. Enter Pod in Namespace A
+### 3. Enter Pod in Namespace A
 Access the pod with UTF-8 support and pre-configured Akeyless environment:
 ```bash
 kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && source /root/.profile && exec /bin/bash"
 ```
 
-### 3. Authenticate with Akeyless
+### 4. Authenticate with Akeyless
 Inside the pod, use the K8s Auth Method to log in:
 ```bash
 akeyless auth --access-id p-nhdb7uj7mxphkm \
@@ -64,13 +69,13 @@ akeyless auth --access-id p-nhdb7uj7mxphkm \
     --k8s-auth-config-name k8s-config-ns-rbac-demo
 ```
 
-### 4. Inspect Sub-Claims
+### 5. Inspect Sub-Claims
 Verify the claims within your session token (copy the token from the previous step):
 ```bash
 akeyless describe-sub-claims --token <YOUR_TOKEN>
 ```
 
-### 5. Access Secrets (RBAC Enforcement)
+### 6. Access Secrets (RBAC Enforcement)
 Demonstrate that access is restricted to the current namespace:
 
 **Success**: Get secret for Namespace A:
