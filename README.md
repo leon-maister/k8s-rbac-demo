@@ -43,10 +43,11 @@ chmod +x setup_demo_env.sh
 
 ## 🚀 Demo Walkthrough
 
-### 1. UI Overview (Secret Structure)
-Before diving into the terminal, open the Akeyless Console and navigate to:
-- **Items**: `/Demo/K8S-NS-Demo/`  
-Show the pre-configured secrets for both **Namespace-A** and **Namespace-B** to establish the baseline for RBAC testing.
+### 1. UI Overview (Secrets & RBAC)
+Before diving into the terminal, open the Akeyless Console to show the configuration:
+- **Items**: Navigate to `/Demo/K8S-NS-Demo/` and show the secrets for **Namespace-A** and **Namespace-B**.
+- **Users & Auth Methods**: Open `/K8s/k8s-ns-rbac-demo`.
+- **Role Binding**: Explain how this Auth Method is linked to specific Roles. Point out that the access is governed by **Sub-Claims** (e.g., matching the Kubernetes Namespace), which determines which role is assigned to the session.
 
 ### 2. Verify Infrastructure
 Show specific namespaces and pods with clean formatting:
