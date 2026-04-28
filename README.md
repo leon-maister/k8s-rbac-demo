@@ -86,4 +86,4 @@ akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-B/secret-namespace-
 ---
 **Maintained by**: [leon-maister](https://github.com/leon-maister)
 
-<sub style="color: gray;">/home/keyless/k8s-rbac-demo | vcluster_my-vcluster_leon_gke_customer-success-391112_us-central1_customer-success-391112-gke-sandbox</sub>
+<sub style="color: gray;">/home/keyless/k8s/k8s-rbac-demo | vcluster_my-vcluster_leon_gke_customer-success-391112_us-central1_customer-success-391112-gke-sandbox</sub>
