@@ -27,11 +27,11 @@ The script executes the following workflow:
 - **Akeyless CLI Audit**: Verifies installation inside pods.
 
 ### 5. Akeyless Auth & RBAC Validation
-- **RBAC Audit**: Validates roles associated with `/K8s/k8s-ns-rbac-demo`.
+- **RBAC Audit**: Validates roles associated with `/K8s/k8s-ns-rbac-demo-vc`.
 
 ## ⚙️ Configuration Variables
 - **TARGET_CONTEXT**: The safe GKE/vCluster context.
-- **AUTH_METHOD_NAME**: `/K8s/k8s-ns-rbac-demo`
+- **AUTH_METHOD_NAME**: `/K8s/k8s-ns-rbac-demo-vc`
 
 ## 🛠 Usage
 1. Ensure you are logged into Akeyless CLI on your host.
@@ -46,7 +46,7 @@ chmod +x setup_demo_env.sh
 ### 1. UI Overview (Secrets & RBAC)
 Before diving into the terminal, open the Akeyless Console to show the configuration:
 - **Items**: Navigate to `/Demo/K8S-NS-Demo/` and show the secrets for **Namespace-A** and **Namespace-B**.
-- **Users & Auth Methods**: Open `/K8s/k8s-ns-rbac-demo`.
+- **Users & Auth Methods**: Open `/K8s/k8s-ns-rbac-demo-vc`.
 - **Role Binding**: Explain how this Auth Method is linked to specific Roles. Point out that the access is governed by **Sub-Claims** (e.g., matching the Kubernetes Namespace), which determines which role is assigned to the session.
 
 ### 2. Verify Infrastructure
@@ -64,10 +64,7 @@ kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "export LC_ALL=C.UTF-8 &
 ### 4. Authenticate with Akeyless
 Inside the pod, use the K8s Auth Method to log in:
 ```bash
-akeyless auth --access-id p-nhdb7uj7mxphkm \
-    --access-type k8s \
-    --gateway-url https://gw-gke.lm.cs.akeyless.fans/ \
-    --k8s-auth-config-name k8s-config-ns-rbac-demo
+akeyless auth --access-id p-ndm5ecusra7akm \n    --access-type k8s \n    --gateway-url http://34.30.91.46:8000/ \n    --k8s-auth-config-name k8s-config-vcluster
 ```
 
 ### 5. Inspect Sub-Claims

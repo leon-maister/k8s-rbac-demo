@@ -1,0 +1,105 @@
+[0;36m--- Script started at Sat Jul 25 18:09:13 IDT 2026 ---[0m
+[0;36m--- Checking Environment ---[0m
+[0;31mERROR: Gateway URL mismatch detected.[0m
+Environment variable AKEYLESS_GATEWAY_URL: http://34.30.91.46:8000/api/v1
+Script variable GW_URL:  http://34.30.91.46:8000/api/v1
+Please update either the environment variable or the GW_URL value so they match.
+[0;36m--- Script started at Sat Jul 25 18:15:51 IDT 2026 ---[0m
+[0;36m--- Checking Environment ---[0m
+[0;31mERROR: Gateway URL mismatch detected.[0m
+Environment variable AKEYLESS_GATEWAY_URL: http://34.30.91.46:8000/api/v1
+Script variable GW_URL:  http://34.30.91.46:8000/api/v1
+Please update either the environment variable or the GW_URL value so they match.
+[0;36m--- Script started at Sat Jul 25 18:21:42 IDT 2026 ---[0m
+[0;36m--- Checking Environment ---[0m
+DEBUG ENV: <http://34.30.91.46:8000/api/v1>
+DEBUG GW : <\ http://34.30.91.46:8000/api/v1>
+DEBUG ENV length: 30
+DEBUG GW length : 31
+[0;31mERROR: Gateway URL mismatch detected.[0m
+Environment variable AKEYLESS_GATEWAY_URL: http://34.30.91.46:8000/api/v1
+Script variable GW_URL:  http://34.30.91.46:8000/api/v1
+Please update either the environment variable or the GW_URL value so they match.
+[0;36m--- Script started at Sat Jul 25 18:23:19 IDT 2026 ---[0m
+[0;36m--- Checking Environment ---[0m
+DEBUG ENV: <http://34.30.91.46:8000/api/v1>
+DEBUG GW : <\ http://34.30.91.46:8000/api/v1>
+DEBUG ENV length: 30
+DEBUG GW length : 31
+  20  68  74  74  70  3a  2f  2f  33  34  2e  33  30  2e  39  31
+       h   t   t   p   :   /   /   3   4   .   3   0   .   9   1
+  2e  34  36  3a  38  30  30  30  2f  61  70  69  2f  76  31
+   .   4   6   :   8   0   0   0   /   a   p   i   /   v   1
+  68  74  74  70  3a  2f  2f  33  34  2e  33  30  2e  39  31  2e
+   h   t   t   p   :   /   /   3   4   .   3   0   .   9   1   .
+  34  36  3a  38  30  30  30  2f  61  70  69  2f  76  31
+   4   6   :   8   0   0   0   /   a   p   i   /   v   1
+[0;31mERROR: Gateway URL mismatch detected.[0m
+Environment variable AKEYLESS_GATEWAY_URL: http://34.30.91.46:8000/api/v1
+Script variable GW_URL:  http://34.30.91.46:8000/api/v1
+Please update either the environment variable or the GW_URL value so they match.
+[0;36m--- Script started at Sat Jul 25 18:24:22 IDT 2026 ---[0m
+[0;36m--- Checking Environment ---[0m
+DEBUG ENV: <http://34.30.91.46:8000/api/v1>
+DEBUG GW : <\ http://34.30.91.46:8000/api/v1>
+DEBUG ENV length: 30
+DEBUG GW length : 31
+  20  68  74  74  70  3a  2f  2f  33  34  2e  33  30  2e  39  31
+       h   t   t   p   :   /   /   3   4   .   3   0   .   9   1
+  2e  34  36  3a  38  30  30  30  2f  61  70  69  2f  76  31
+   .   4   6   :   8   0   0   0   /   a   p   i   /   v   1
+  68  74  74  70  3a  2f  2f  33  34  2e  33  30  2e  39  31  2e
+   h   t   t   p   :   /   /   3   4   .   3   0   .   9   1   .
+  34  36  3a  38  30  30  30  2f  61  70  69  2f  76  31
+   4   6   :   8   0   0   0   /   a   p   i   /   v   1
+GW_URL=< http://34.30.91.46:8000/api/v1>
+GW_URL trimmed=< http://34.30.91.46:8000/api/v1>
+[0;31mERROR: Gateway URL mismatch detected.[0m
+Environment variable AKEYLESS_GATEWAY_URL: http://34.30.91.46:8000/api/v1
+Script variable GW_URL:  http://34.30.91.46:8000/api/v1
+Please update either the environment variable or the GW_URL value so they match.
+[0;36m--- Script started at Sat Jul 25 18:25:27 IDT 2026 ---[0m
+[0;36m--- Checking Environment ---[0m
+DEBUG ENV: <http://34.30.91.46:8000/api/v1>
+DEBUG GW : <http://34.30.91.46:8000/api/v1>
+DEBUG ENV length: 30
+DEBUG GW length : 30
+  68  74  74  70  3a  2f  2f  33  34  2e  33  30  2e  39  31  2e
+   h   t   t   p   :   /   /   3   4   .   3   0   .   9   1   .
+  34  36  3a  38  30  30  30  2f  61  70  69  2f  76  31
+   4   6   :   8   0   0   0   /   a   p   i   /   v   1
+  68  74  74  70  3a  2f  2f  33  34  2e  33  30  2e  39  31  2e
+   h   t   t   p   :   /   /   3   4   .   3   0   .   9   1   .
+  34  36  3a  38  30  30  30  2f  61  70  69  2f  76  31
+   4   6   :   8   0   0   0   /   a   p   i   /   v   1
+GW_URL=<http://34.30.91.46:8000/api/v1>
+GW_URL trimmed=<http://34.30.91.46:8000/api/v1>
+[0;32mSUCCESS: Gateway URL validated.[0m
+[0;36mActive Kubernetes context:[0m vcluster_my-vcluster_leon_gke_customer-success-391112_us-central1_customer-success-391112-gke-sandbox
+namespace/leon-k8-auth created
+[0;36m--- Applying Kubernetes manifests ---[0m
+serviceaccount/gateway-token-reviewer created
+clusterrolebinding.rbac.authorization.k8s.io/role-tokenreview-binding-leon-k8-auth created
+secret/sa-reviewer-token created
+[0;36m--- Extracting cluster credentials ---[0m
+[0;32mToken extracted.[0m
+[0;32mCA certificate captured.[0m
+[0;32mKubernetes host detected:[0m https://35.254.207.5
+[0;32mKubernetes issuer detected.[0m
+[0;36m--- Creating Akeyless Auth Method ---[0m
+[0;32mSUCCESS: Auth Method created.[0m
+ACCESS_ID: p-ndm5ecusra7akm
+PRV_KEY: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBNmdJc0o4QU1JV3NsaFI2dFZOVFF6WEJGbnNPQ1Z4Z2g1TzZ4YnJHMUlIN0pRWUhQCnhHQkNHcVQxV3pER1QwclIxcnF0dGVNbGJGN3dUT1NIUDRqQXU5Mm9kUGhKS1E1aXFnV0JTS2ppUWtDeVliWHIKOG9EVTRrendjK2VTSG1kTnNiVUdpM3U3VVJPYjFZM201QlVxZGIrdDNBQXNXa1lCNkcxMENFVDMrUlhLRjAvKwp5UTNMby9vQjI1SUMwS0V1NXFhai9sWXorblVMbWJqYm1hUmFmYk1icGM5MVpuV1lMemV3M2VSTzlVN2VwSkx6CmdObFJZL0Zxem94ZmJoOHlEdkNJdnZkNDhCT3UyeVZqWkdNR3B5Z3RaWEtKR0hoMDBLYjVOdklTTzl5dGdFNUcKeTEwTXQ5OGc4YnRDTzR6SUJJdEhGNjFWRXdLekFZYUdBMTVnRFFJREFRQUJBb0lCQURYeTNFVXB4R0lyOXBGegpHaGpWbTNIUmNXdUJ2Vm5nNldlREZBcm1FMUR6aWVoOVNlNEhGeFpYYzIxYm1FeU5ma1VYOHBaZFVMSmtUTmdkClU0VDFQU0hTbjFTZ0xSVzNDRTRVU05MOGhIVXJ2elJCb2F6ZHdMYVBjRnY0UmpxV0xGWk0ycjVyZnlyWTczTlQKYktpbXJJeEs3WVVyMFEzYTEvUEMwQjViOENOUFRzVVJGTHFVSHNMMXJGZDRkaHdETmFSS2d1bXlCd0hqVGcxQwp4OHo0NGp3bUc5aE4vT25LdGRiV1FCQlZybjBhL2tZdndmSjVOd3kvOFFLdEhSV2FNTzZOQnMySXdoczdOOFArCmxEdXJtZUp6Q0Z2V2lQVEpYSUl0eU9Vb0hENjk4OVBhRExXZW95bWxuQk9YVVZkQXpQeGdHT3VKdVZCVVpvaFQKRW4rWWs4MENnWUVBN0lBVFFQNWk5S0N0VXpzZXFMT21tNDdJL3lHR29NUGxHTzNvMkRYVjkyaDIrZWxnMDZCRApBTW0zeXhPU2pZcHZTQVY2VmFFZ28yMXo5YWt1UmFpSlRENU42UE5Tb3pXOTRoS2IrUGJJZmVlQi9PeTF0aWVCCnZ2QnpRVWx0d1ZEQ053WW5HZ0hlYWVGN1Z3MWxPb1NUK28xazgvVnVwWFZtUnNLc09xazR5a01DZ1lFQS9VMkEKWWlxd1grcFZsdDZWL2VHbmNIK3lqWmgySzBRVDlNTTI1TFdVd2krKzV2T3dHUngvV2hYaFlDRTF6VHNSUndBdQpuOFNHTm5wQ21Zd1R4ZjJscFdxOHk4VjczeGtMU0VPbzRFUXBuTzF5OERsUjJJK2lkays0TG96d1JnYXplR1VsCkppOUpIWGhTdHRnUDc1UFVIYU9vczBjUnVHaVF6VWt0a3lvY1QyOENnWUVBazRXUWZRb3hUOGFxVnpDWmYwSVEKdXhmbDZMOVE2eGRHNExZR2VGZWNrQ2RwajVveis4NEwvWUhXVTZaeDFEaDJFY2JZK0hENW12ZTdUWkdxZTJrVgp1NmxoajkyM3ZuYlhheDJRalV2aTVDWjB2d0FvbU9jcjE1N0ZSZ1Ezb2s1dDEwVFBQem5MTXVDanZ6bHIyNFMzCmlhS0pSbVBpRVBPYVNLbEdKWkZKQzJFQ2dZQndRWXlIOU1zOWRxaC91QjFZNmt3K094bHlUd0x2b2JnR1hRMVMKeG5ZcXFPWTlpL21hNTFvNUhrRkhUUEIvQjVKY21PUVF3aE9JeVI0QzFtVmM5VkFYd3Zud2hKQ2xDb0JKZ2xLeApNUVFRRzlzNFF1N1d2ckVOSmI5R1FnZXB3UWFBY0xMSi9XSzF3TUZIYnZHQkIwNlY1Qlc3ZmQrSWppNitDNVE3CkNBcUwyUUtCZ0N4Q1ZObnROaFpNRktOelhCdllmb215NWk2NFBscEJPL1FNZm9HT3ZVbktCbDFmN3dnNDhCalcKQisxY2FDbzRXWWFrYk1zZEhnVEpMdGZWVHVXSmw1NWE4RThJZW9vaDFjUnFWTFRSS216T0l5RUthOE0vRW1LYgpEVWtCNWdlUllIT0h4Ty9zYkNlVTJ3blBYZUFNZXhaU1QwajI5UDkwSis5RHFyN3d3am8rCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+[0;36m--- Checking if Akeyless Role '/K8sAccess' exists ---[0m
+[0;32mSUCCESS: Role '/K8sAccess' already exists.[0m
+Association ass-3f9rsxl6ak7t706hf10b was successfully created
+[0;32mSUCCESS: Role associated with Auth Method.[0m
+[0;36m--- Configuring Akeyless Gateway ---[0m
+
+Configuring Kubernetes Authentication Config with the following parameters:
+Config Name     : k8s-config-vcluster
+Gateway URL     : http://34.30.91.46:8000/api/v1
+K8S Auth config k8s-config-vcluster successfully created. [ k8s-config-vcluster]
+--------------------------------------------------------
+[0;32mSUCCESS! Log saved to create_k8s_auth.log[0m
+--------------------------------------------------------

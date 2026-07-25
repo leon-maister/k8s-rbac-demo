@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sa-reviewer-token
+  namespace: leon-k8-auth
+  annotations:
+    kubernetes.io/service-account.name: gateway-token-reviewer
+type: kubernetes.io/service-account-token
