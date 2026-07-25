@@ -62,15 +62,19 @@ kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "export LC_ALL=C.UTF-8 &
 ```
 
 ### 4. Authenticate with Akeyless
-Inside the pod, use the K8s Auth Method to log in:
+Inside the pod, authenticate and automatically save the session token:
 ```bash
-akeyless auth --access-id p-ndm5ecusra7akm \n    --access-type k8s \n    --gateway-url http://34.30.91.46:8000/ \n    --k8s-auth-config-name k8s-config-vcluster
+TOKEN=$(akeyless auth \n    --access-id p-ndm5ecusra7akm \n    --access-type k8s \n    --gateway-url http://34.30.91.46:8000/ \n    --k8s-auth-config-name k8s-config-vcluster \n    --json \n    --jq-expression '.token')
+
+export TOKEN
+
+echo $TOKEN
 ```
 
 ### 5. Inspect Sub-Claims
-Verify the claims within your session token (copy the token from the previous step):
+Verify the claims within your session token:
 ```bash
-akeyless describe-sub-claims --token <YOUR_TOKEN>
+akeyless describe-sub-claims --token "$TOKEN"
 ```
 
 ### 6. Access Secrets (RBAC Enforcement)
@@ -78,12 +82,12 @@ Demonstrate that access is restricted to the current namespace:
 
 **Success**: Get secret for Namespace A:
 ```bash
-akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-A/secret-namespace-A --token <YOUR_TOKEN>
+akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-A/secret-namespace-A --token "$TOKEN"
 ```
 
 **Failure**: Attempt to access secret for Namespace B (Access Denied):
 ```bash
-akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-B/secret-namespace-B --token <YOUR_TOKEN>
+akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-B/secret-namespace-B --token "$TOKEN"
 ```
 
 ---
