@@ -16,7 +16,7 @@ TARGET_CONTEXT="vcluster_my-vcluster_leon_gke_customer-success-391112_us-central
 NAMESPACES=("namespace-a" "namespace-b")
 
 # The Access ID from your K8s Auth Method (k8s-ns-rbac-demo)
-AUTH_METHOD_NAME="/K8s/k8s-ns-rbac-demo"
+AUTH_METHOD_NAME="/K8s/k8s-ns-rbac-demo-vc"
 EXPECTED_ROLES=(
     "Demo/K8S/Namespace-Demo/Access_Namespace-A"
     "Demo/K8S/Namespace-Demo/Access_Namespace-B"

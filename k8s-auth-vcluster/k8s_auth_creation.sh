@@ -23,16 +23,6 @@ exec > >(tee -a "$LOG_FILE") 2>&1
 printf "${CYAN}--- Script started at $(date) ---${NC}\n"
 printf "${CYAN}--- Checking Environment ---${NC}\n"
 
-printf 'DEBUG ENV: <%q>\n' "$AKEYLESS_GATEWAY_URL"
-printf 'DEBUG GW : <%q>\n' "$GW_URL"
-printf 'DEBUG ENV length: %s\n' "${#AKEYLESS_GATEWAY_URL}"
-printf 'DEBUG GW length : %s\n' "${#GW_URL}"
-printf '%s' "$GW_URL" | od -An -tx1 -c
-printf '%s' "$AKEYLESS_GATEWAY_URL" | od -An -tx1 -c
-echo "GW_URL=<$GW_URL>"
-echo "GW_URL trimmed=<$(echo -n "$GW_URL" | sed 's/[[:space:]]*$//')>"
-
-# --- Check gateway URL consistency ---
 if [ "$AKEYLESS_GATEWAY_URL" != "$GW_URL" ]; then
 
     printf "${RED}ERROR: Gateway URL mismatch detected.${NC}\n"
