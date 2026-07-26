@@ -72,7 +72,7 @@ echo "$TOKEN"
 ### 5. Inspect Sub-Claims
 Verify the claims within your session token (copy the token from the previous step):
 ```bash
-akeyless describe-sub-claims --token <YOUR_TOKEN>
+akeyless describe-sub-claims --token $TOKEN
 ```
 
 ### 6. Access Secrets (RBAC Enforcement)
@@ -80,12 +80,12 @@ Demonstrate that access is restricted to the current namespace:
 
 **Success**: Get secret for Namespace A:
 ```bash
-akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-A/secret-namespace-A --token <YOUR_TOKEN>
+akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-A/secret-namespace-A --token $TOKEN
 ```
 
 **Failure**: Attempt to access secret for Namespace B (Access Denied):
 ```bash
-akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-B/secret-namespace-B --token <YOUR_TOKEN>
+akeyless get-secret-value --name /Demo/K8S-NS-Demo/Namespace-B/secret-namespace-B --token $TOKEN
 ```
 
 ---
