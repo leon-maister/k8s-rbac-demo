@@ -65,6 +65,8 @@ kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "export LC_ALL=C.UTF-8 &
 Inside the pod, use the K8s Auth Method to log in:
 ```bash
 TOKEN=$(akeyless auth --access-id p-ndm5ecusra7akm --access-type k8s --gateway-url http://34.30.91.46:8000/ --k8s-auth-config-name k8s-config-vcluster --json --jq-expression '.token')
+export TOKEN
+echo "$TOKEN"
 ```
 
 ### 5. Inspect Sub-Claims
