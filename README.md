@@ -20,11 +20,14 @@ The script executes the following workflow:
 ### 2. Namespace Management
 - **Discovery & Provisioning**: Manages `namespace-a` and `namespace-b`.
 
-### 3. Workload Orchestration (Pods)
-- **Deployment**: Ensures `mypod-a` and `mypod-b` are running.
+### 3. Workload Orchestration (Deployments)
+- **Deployment Management**: Ensures the `mypod-a` and `mypod-b` Deployments each maintain one replica.
+- **Automatic Recovery**: Kubernetes recreates Pods after deletion or cluster/vCluster disruption.
+- **Dynamic Pod Names**: Deployment-managed Pod names are intentionally generated and must not be treated as fixed.
 
 ### 4. In-Pod Environment Verification
-- **Akeyless CLI Audit**: Verifies installation inside pods.
+- **Dynamic Discovery**: Finds the current running Pod for each Deployment by label.
+- **Akeyless CLI Audit**: Verifies the CLI inside each Pod and installs it non-interactively when missing.
 
 ### 5. Akeyless Auth & RBAC Validation
 - **RBAC Audit**: Validates roles associated with `/K8s/k8s-ns-rbac-demo`.
@@ -50,15 +53,15 @@ Before diving into the terminal, open the Akeyless Console to show the configura
 - **Role Binding**: Explain how this Auth Method is linked to specific Roles. Point out that the access is governed by **Sub-Claims** (e.g., matching the Kubernetes Namespace), which determines which role is assigned to the session.
 
 ### 2. Verify Infrastructure
-Show specific namespaces and pods with clean formatting:
+Show the namespaces, Deployments, and dynamically generated Pods:
 ```bash
-echo "--- NAMESPACES ---" && kubectl get ns | grep -E '^namespace-a |^namespace-b ' && echo "" && echo "--- PODS ---" && kubectl get pods -A | grep -E '^namespace-a |^namespace-b '
+echo "--- NAMESPACES ---" && kubectl get ns | grep -E '^namespace-a |^namespace-b ' && echo "" && echo "--- DEPLOYMENTS ---" && kubectl get deployments -n namespace-a && kubectl get deployments -n namespace-b && echo "" && echo "--- PODS ---" && kubectl get pods -A | grep -E '^namespace-a |^namespace-b '
 ```
 
 ### 3. Enter Pod in Namespace A
-Access the pod with UTF-8 support and pre-configured Akeyless environment:
+Access the current Pod through its Deployment with UTF-8 support and the pre-configured Akeyless environment:
 ```bash
-kubectl exec -it -n namespace-a mypod-a -- /bin/bash -c "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && source /root/.profile && exec /bin/bash"
+kubectl exec -it -n namespace-a deploy/mypod-a -- /bin/bash -c "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8 && source /root/.profile && exec /bin/bash"
 ```
 
 ### 4. Authenticate with Akeyless
