@@ -22,10 +22,23 @@ EXPECTED_ROLES=(
     "Demo/K8S/Namespace-Demo/Access_Namespace-B"
 )
 
-# Mapping pods to namespaces
-declare -A POD_MAP
-POD_MAP["mypod-a"]="namespace-a"
-POD_MAP["mypod-b"]="namespace-b"
+# Mapping deployments to namespaces
+declare -A DEPLOYMENT_MAP
+DEPLOYMENT_MAP["mypod-a"]="namespace-a"
+DEPLOYMENT_MAP["mypod-b"]="namespace-b"
+
+get_deployment_pod() {
+    local deployment="$1"
+    local namespace="$2"
+
+    kubectl get pods \
+        --namespace "$namespace" \
+        --selector "app=$deployment" \
+        --field-selector status.phase=Running \
+        --sort-by=.metadata.creationTimestamp \
+        --output jsonpath='{.items[-1].metadata.name}' \
+        2>/dev/null
+}
 
 printf "${CYAN}--- Starting environment validation ---${NC}\n"
 
@@ -68,36 +81,63 @@ for ns in "${NAMESPACES[@]}"; do
     fi
 done
 
-# --- 4. Check and Run Pods ---
-printf "${CYAN}--- Checking pods ---${NC}\n"
+# --- 4. Check and Create Deployments ---
+printf "${CYAN}--- Checking deployments ---${NC}\n"
 
-for pod in "${!POD_MAP[@]}"; do
-    ns=${POD_MAP[$pod]}
-    
-    if kubectl get pod "$pod" -n "$ns" &> /dev/null; then
-        printf "${GREEN}SUCCESS: Pod '$pod' is already present in namespace '$ns'.${NC}\n"
+for deployment in "${!DEPLOYMENT_MAP[@]}"; do
+    ns=${DEPLOYMENT_MAP[$deployment]}
+
+    if kubectl get deployment "$deployment" -n "$ns" &> /dev/null; then
+        printf "${GREEN}SUCCESS: Deployment '$deployment' already exists in namespace '$ns'.${NC}\n"
     else
-        printf "${YELLOW}Pod '$pod' not found in '$ns'. Launching...${NC}\n"
-        kubectl run "$pod" --image=nginx -n "$ns"
-        
+        printf "${YELLOW}Deployment '$deployment' not found in '$ns'. Creating...${NC}\n"
+        kubectl create deployment "$deployment" --image=nginx --replicas=1 -n "$ns"
+
         if [ $? -eq 0 ]; then
-            printf "${GREEN}SUCCESS: Pod '$pod' launched.${NC}\n"
+            printf "${GREEN}SUCCESS: Deployment '$deployment' created.${NC}\n"
         else
-            printf "${RED}ERROR: Failed to launch pod '$pod'.${NC}\n"
+            printf "${RED}ERROR: Failed to create deployment '$deployment'.${NC}\n"
             continue
         fi
+    fi
+
+    printf "${CYAN}Waiting for Deployment '$deployment' to have one Available replica...${NC}\n"
+    if kubectl wait \
+        --namespace "$ns" \
+        --for=condition=Available \
+        "deployment/$deployment" \
+        --timeout=120s; then
+        if kubectl wait \
+            --namespace "$ns" \
+            --selector "app=$deployment" \
+            --for=condition=Ready \
+            pod \
+            --timeout=120s; then
+            printf "${GREEN}SUCCESS: Deployment '$deployment' has one Available replica.${NC}\n"
+        else
+            printf "${RED}ERROR: Deployment '$deployment' has no Ready Pod.${NC}\n"
+            continue
+        fi
+    else
+        printf "${RED}ERROR: Deployment '$deployment' did not become Available.${NC}\n"
+        continue
     fi
 done
 
 # --- 5. Check Akeyless CLI inside Pods ---
 printf "${CYAN}--- Checking Akeyless CLI inside pods ---${NC}\n"
-sleep 5
 
-for pod in "${!POD_MAP[@]}"; do
-    ns=${POD_MAP[$pod]}
-    
+for deployment in "${!DEPLOYMENT_MAP[@]}"; do
+    ns=${DEPLOYMENT_MAP[$deployment]}
+    pod=$(get_deployment_pod "$deployment" "$ns")
+
+    if [ -z "$pod" ]; then
+        printf "${YELLOW}WARNING: No running Pod found for Deployment '$deployment' in namespace '$ns'. Skipping CLI check.${NC}\n"
+        continue
+    fi
+
     printf "Checking pod ${CYAN}$pod${NC} in namespace ${CYAN}$ns${NC}...\n"
-    
+
     # Check if pod is actually running
     POD_STATUS=$(kubectl get pod "$pod" -n "$ns" -o jsonpath='{.status.phase}')
     if [ "$POD_STATUS" != "Running" ]; then
@@ -111,28 +151,45 @@ for pod in "${!POD_MAP[@]}"; do
         printf "${GREEN}SUCCESS: Akeyless CLI is active inside '$pod'.${NC}\n"
         printf "${CYAN}Info: $VERSION${NC}\n"
     else
-        printf "${RED}WARNING: Akeyless CLI is NOT found or NOT working inside '$pod'.${NC}\n"
-        echo "--------------------------------------------------------"
-        printf "${YELLOW}To install and CONFIGURE it manually, follow these steps:${NC}\n"
-        printf "1. Enter the pod:\n"
-        printf "${CYAN}kubectl exec --stdin=true --namespace $ns --tty=true $pod -- /bin/bash${NC}\n\n"
-        
-        printf "2. Download and prepare the binary:\n"
-        printf "${CYAN}curl -o akeyless https://akeyless-cli.s3.us-east-2.amazonaws.com/cli/latest/production/cli-linux-amd64 && chmod +x akeyless${NC}\n\n"
-        
-        printf "3. Run initial setup and follow these interactive prompts:\n"
-        printf "${CYAN}./akeyless --help${NC}\n"
-        printf "   - Would you like to configure a profile? (Y/n) -> Type ${GREEN}n${NC}\n"
-        printf "   - Please type your answer: (Default: vault.akeyless.io) -> Press ${GREEN}ENTER${NC}\n"
-        printf "   - Would you like to move 'akeyless' binary to: /root/.akeyless/bin/akeyless? (Y/n) -> Type ${GREEN}Y${NC}\n"
-        printf "   - Would you like to add '/root/.akeyless/bin' To user PATH environment variable? (Y/n) -> Type ${GREEN}Y${NC}\n\n"
-        
-        printf "4. IMPORTANT: Apply changes to your current session:\n"
-        printf "${CYAN}source /root/.profile${NC}\n\n"
+        printf "${YELLOW}Akeyless CLI is not available inside '$pod'. Installing...${NC}\n"
 
-        printf "5. Verify installation:\n"
-        printf "${CYAN}akeyless --version${NC}\n"
-        echo "--------------------------------------------------------"
+        if ! kubectl exec -n "$ns" "$pod" -- /bin/bash -c '
+            set -e
+
+            install_dir="/root/.akeyless/bin"
+            profile_file="/root/.profile"
+            path_line="export PATH=\"/root/.akeyless/bin:\$PATH\""
+            download_url="https://akeyless-cli.s3.us-east-2.amazonaws.com/cli/latest/production/cli-linux-amd64"
+
+            mkdir -p "$install_dir"
+            temporary_file=$(mktemp "$install_dir/.akeyless.XXXXXX")
+            trap "rm -f \"$temporary_file\"" EXIT
+
+            curl --fail --silent --show-error --location \
+                --output "$temporary_file" \
+                "$download_url"
+            chmod +x "$temporary_file"
+            mv "$temporary_file" "$install_dir/akeyless"
+            trap - EXIT
+
+            touch "$profile_file"
+            if ! grep -Fqx "$path_line" "$profile_file"; then
+                printf "%s\n" "$path_line" >> "$profile_file"
+            fi
+        '; then
+            printf "${RED}ERROR: Failed to install Akeyless CLI inside '$pod'.${NC}\n"
+            exit 1
+        fi
+
+        if kubectl exec -n "$ns" "$pod" -- /bin/bash -c "source /root/.profile && akeyless --version" &> /dev/null &&
+            VERSION_OUTPUT=$(kubectl exec -n "$ns" "$pod" -- /bin/bash -c "source /root/.profile && akeyless --version"); then
+            VERSION=${VERSION_OUTPUT%%$'\n'*}
+            printf "${GREEN}SUCCESS: Akeyless CLI installed inside '$pod'.${NC}\n"
+            printf "${CYAN}Info: $VERSION${NC}\n"
+        else
+            printf "${RED}ERROR: Akeyless CLI verification failed inside '$pod'.${NC}\n"
+            exit 1
+        fi
     fi
 
   # --- 6. Validate Akeyless Auth Method & RBAC ---
